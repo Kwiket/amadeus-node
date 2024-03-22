@@ -23,30 +23,30 @@ import qs from 'qs';
  */
 class Request {
   constructor(options) {
-    this.host            = options.host;
-    this.port            = options.port;
-    this.ssl             = options.ssl;
-    this.scheme          = this.ssl ? 'https' : 'http';
-    this.verb            = options.verb;
-    this.path            = options.path;
-    this.params          = options.params;
-    this.queryPath       = this.fullQueryPath();
-    this.bearerToken     = options.bearerToken;
-    this.clientVersion   = options.clientVersion;
+    this.host = options.host;
+    this.port = options.port;
+    this.ssl = options.ssl;
+    this.scheme = this.ssl ? 'https' : 'http';
+    this.verb = options.verb;
+    this.path = options.path;
+    this.params = options.params;
+    this.queryPath = this.fullQueryPath();
+    this.bearerToken = options.bearerToken;
+    this.clientVersion = options.clientVersion;
     this.languageVersion = options.languageVersion;
-    this.appId           = options.appId;
-    this.appVersion      = options.appVersion;
-    this.headers         = {
-      'User-Agent' : this.userAgent(),
-      'Accept' : 'application/json, application/vnd.amadeus+json'
-    };
-    this.ListHTTPOverride= [
+    this.appId = options.appId;
+    this.appVersion = options.appVersion;
+    this.headers = options.headers || {};
+    this.headers['User-Agent'] = this.userAgent();
+    this.headers['Accept'] = 'application/json, application/vnd.amadeus+json';
+
+    this.ListHTTPOverride = [
       '/v2/shopping/flight-offers',
       '/v1/shopping/seatmaps',
       '/v1/shopping/availability/flight-availabilities',
       '/v2/shopping/flight-offers/prediction',
       '/v1/shopping/flight-offers/pricing',
-      '/v1/shopping/flight-offers/upselling'
+      '/v1/shopping/flight-offers/upselling',
     ];
     this.addAuthorizationHeader();
     this.addContentTypeHeader();
@@ -66,12 +66,12 @@ class Request {
    */
   options() {
     let options = {
-      'host' : this.host,
-      'port' : this.port,
-      'protocol' : `${this.scheme}:`,
-      'path' : this.queryPath,
-      'method' : this.verb,
-      'headers' : this.headers
+      host: this.host,
+      port: this.port,
+      protocol: `${this.scheme}:`,
+      path: this.queryPath,
+      method: this.verb,
+      headers: this.headers,
     };
     return options;
   }
@@ -83,8 +83,9 @@ class Request {
    * @protected
    */
   body() {
-    if (this.verb !== 'POST') { return ''; }
-    else {
+    if (this.verb !== 'POST') {
+      return '';
+    } else {
       if (!this.bearerToken) {
         return qs.stringify(this.params);
       }
@@ -102,7 +103,9 @@ class Request {
    */
   userAgent() {
     let userAgent = `amadeus-node/${this.clientVersion} node/${this.languageVersion}`;
-    if (!this.appId) { return userAgent; }
+    if (!this.appId) {
+      return userAgent;
+    }
     return `${userAgent} ${this.appId}/${this.appVersion}`;
   }
 
@@ -114,8 +117,11 @@ class Request {
    * @private
    */
   fullQueryPath() {
-    if (this.verb === 'POST') { return this.path; }
-    else { return `${this.path}?${qs.stringify(this.params)}`; }
+    if (this.verb === 'POST') {
+      return this.path;
+    } else {
+      return `${this.path}?${qs.stringify(this.params)}`;
+    }
   }
 
   /**
@@ -124,7 +130,9 @@ class Request {
    * @private
    */
   addAuthorizationHeader() {
-    if (!this.bearerToken) { return; }
+    if (!this.bearerToken) {
+      return;
+    }
     this.headers['Authorization'] = `Bearer ${this.bearerToken}`;
   }
 
@@ -143,10 +151,10 @@ class Request {
   }
 
   /**
-  * Adds HTTPOverride method if it is required
-  *
-  *  @private
-  */
+   * Adds HTTPOverride method if it is required
+   *
+   *  @private
+   */
   addHTTPOverrideHeader() {
     if (this.verb === 'POST' && this.ListHTTPOverride.includes(this.path)) {
       this.headers['X-HTTP-Method-Override'] = 'GET';
