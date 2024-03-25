@@ -41,8 +41,8 @@ class FlightChoicePrediction {
    * });
    * ```
    */
-  post(params = {}) {
-    return this.client.post('/v2/shopping/flight-offers/prediction', params);
+  post(params = {}, headers = {}) {
+    return this.client.post('/v2/shopping/flight-offers/prediction', params, headers);
   }
 }
 

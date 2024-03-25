@@ -1,4 +1,3 @@
-
 /**
  * A namespaced client for the
  * `/v1/shopping/seatmaps` endpoints
@@ -31,8 +30,8 @@ class Seatmaps {
    * );
    * ```
    */
-  get(params = {}) {
-    return this.client.get('/v1/shopping/seatmaps', params);
+  get(params = {}, headers = {}) {
+    return this.client.get('/v1/shopping/seatmaps', params, headers);
   }
 
   /**
@@ -57,11 +56,10 @@ class Seatmaps {
    *    );
    * });
    * ```
-  */
-  post(params = {}) {
-    return this.client.post('/v1/shopping/seatmaps', params);
+   */
+  post(params = {}, headers = {}) {
+    return this.client.post('/v1/shopping/seatmaps', params, headers);
   }
-
 }
 
 export default Seatmaps;

@@ -26,8 +26,8 @@ class Upselling {
    * amadeus.shopping.flightOffers.upselling.post(body);
    * ```
    */
-  post(params = {}) {
-    return this.client.post('/v1/shopping/flight-offers/upselling', params);
+  post(params = {}, headers = {}) {
+    return this.client.post('/v1/shopping/flight-offers/upselling', params, headers);
   }
 }
 

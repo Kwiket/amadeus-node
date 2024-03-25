@@ -26,8 +26,8 @@ class FlightAvailabilities {
    * amadeus.shopping.availability.flightAvailabilities.post(body);
    * ```
    */
-  post(params = {}) {
-    return this.client.post('/v1/shopping/availability/flight-availabilities', params);
+  post(params = {}, headers = {}) {
+    return this.client.post('/v1/shopping/availability/flight-availabilities', params, headers);
   }
 }
 

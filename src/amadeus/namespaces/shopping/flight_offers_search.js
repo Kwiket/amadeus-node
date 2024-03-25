@@ -38,8 +38,8 @@ class FlightOffersSearch {
    * });
    * ```
    */
-  get(params = {}) {
-    return this.client.get('/v2/shopping/flight-offers', params);
+  get(params = {}, headers = {}) {
+    return this.client.get('/v2/shopping/flight-offers', params, headers);
   }
 
   /**
@@ -117,8 +117,8 @@ class FlightOffersSearch {
       }))
     * ```
     */
-  post(params = {}) {
-    return this.client.post('/v2/shopping/flight-offers', params);
+  post(params = {}, headers = {}) {
+    return this.client.post('/v2/shopping/flight-offers', params, headers);
   }
 }
 

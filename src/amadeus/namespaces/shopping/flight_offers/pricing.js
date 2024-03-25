@@ -38,9 +38,11 @@ class Pricing {
    * });
    * ```
    */
-  post(params = {}, additionalParams = {}) {
+  post(params = {}, additionalParams = {}, headers = {}) {
     // Convert additionalParams object to query string
-    const queryString = Object.keys(additionalParams).map(key => key + '=' + additionalParams[key]).join('&');
+    const queryString = Object.keys(additionalParams)
+      .map(key => key + '=' + additionalParams[key])
+      .join('&');
 
     // Check if queryString is empty before appending it to the URL
     let url = '/v1/shopping/flight-offers/pricing';
@@ -48,7 +50,7 @@ class Pricing {
       url += '?' + queryString;
     }
 
-    return this.client.post(url, params);
+    return this.client.post(url, params, headers);
   }
 }
 
